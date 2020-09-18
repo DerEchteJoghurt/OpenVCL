@@ -84,7 +84,6 @@ void TWindow::Paint() {
 	SDL_Color accent = {255, 128, 0, 255};
 
 	thickLineRGBA(renderer, 0, 0, Width, 0, 5, accent.r, accent.g, accent.b, accent.a);
-	SDL_RenderDrawLine(renderer, 0, 0, Width, 0);
 
 	exit->Draw(renderer, font);
 
@@ -127,7 +126,7 @@ bool TWindow::ProcessEvents(SDL_Event* e) {
 
 		if(titlebarMD){
 			SetPos(x + (e->motion.x - lastMouseX), y + (e->motion.y - lastMouseY));
-			return 0;
+			return true;
 		}
 
 		lastMouseX = e->motion.x;
@@ -138,9 +137,11 @@ bool TWindow::ProcessEvents(SDL_Event* e) {
 	case SDL_MOUSEBUTTONDOWN:
 		if (e->button.button == SDL_BUTTON_LEFT)
 		{
-			if (IN_BOUNDS(e->button.x, e->button.y, titlebar)) {
+			int mx, my;
+			SDL_GetGlobalMouseState(&mx, &my);
+			if (IN_BOUNDS(mx, my, titlebar)) {
 				titlebarMD = true;
-				return 0;
+				return true;
 			}
 
 			if (exit->InBounds(e->button.x, e->button.y)) exit->MD();
