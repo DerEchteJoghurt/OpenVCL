@@ -1,17 +1,17 @@
-#include "OpenVCL.h"
+#include "OpenVCL/OpenVCL.h"
 
-int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR, int nCmdShow) {
+int main() {
 	// Create a Window
 	TWindow window;
 
 	// Set Window Parameters
 	window.SetSize(250, 250);
-	window.SetName(L"testing 1");
+	window.SetName("testing 1");
 	window.SetPos(500, 500);
 
 	// Create a Button for example
 	// 'window' is its owner, position is x:10 y:25 and the button-label is 'Test'
-	TButton button(&window, 10, 25, L"Button");
+	TButton button(&window, 10, 25, "Button");
 
 	// OnClick Handler
 	// Can take a function pointer or lambda
