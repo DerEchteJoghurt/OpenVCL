@@ -1,5 +1,9 @@
 #include "OpenVCL/OpenVCL.h"
 
+#ifdef _WIN32
+#undef main
+#endif
+
 int main() {
 	// Create a Window
 	TWindow window;

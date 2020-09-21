@@ -57,11 +57,18 @@ void TWindow::Update() {
 
 #pragma region InternalMagic
 
+#ifdef _WIN32
+#define FONT_PATH "C:/Windows/fonts/Arial.ttf"
+#else
+#define FONT_PATH "/usr/share/fonts/truetype/freefont/FreeSansOblique.ttf"
+#endif
+
 void TWindow::InitGraphics() {
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	font = FC_CreateFont();
 	// TODO everything that uses a font should be able to load its own font
-	FC_LoadFont(font, renderer, "/usr/share/fonts/truetype/freefont/FreeSansOblique.ttf", 18, {255, 255, 255, 255}, 0);
+	FC_LoadFont(font, renderer, FONT_PATH, 18, {255, 255, 255, 255}, 0);
+	SDL_CaptureMouse(SDL_TRUE);
 }
 
 void TWindow::DestroyGraphics() {
@@ -137,9 +144,7 @@ bool TWindow::ProcessEvents(SDL_Event* e) {
 	case SDL_MOUSEBUTTONDOWN:
 		if (e->button.button == SDL_BUTTON_LEFT)
 		{
-			int mx, my;
-			SDL_GetGlobalMouseState(&mx, &my);
-			if (IN_BOUNDS(mx, my, titlebar)) {
+			if (IN_BOUNDS(e->button.x, e->button.y, titlebar)) {
 				titlebarMD = true;
 				return true;
 			}
